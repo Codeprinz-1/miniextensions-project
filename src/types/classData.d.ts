@@ -12,6 +12,7 @@ interface StudentTable {
   id: string;
   fields: {
     Name: string;
+    Classes: string[];
   };
 }
 

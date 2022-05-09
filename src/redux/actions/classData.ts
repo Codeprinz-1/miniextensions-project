@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { createClassDataList, extractClassData } from '../../utils';
+import {
+  extractClassData,
+  generateClassDataList,
+  generateClassesFilterFormula,
+  generateStudentsFilterFormula,
+} from '../../utils';
 import { CLEARCLASSDATALIST, GETCLASSDATALIST } from '../types/classData';
 
 export const getClassDataList =
@@ -21,23 +26,18 @@ export const getClassDataList =
         }
 
         return axios.get(
-          `/Classes?filterByFormula=OR(${res.data.records[0].fields.Classes.map(
-            (classId: string) => `RECORD_ID()="${classId}"`
-          ).join(',')})`
+          `/Classes?filterByFormula=${generateClassesFilterFormula(
+            res.data.records[0]
+          )}`
         );
       })
       .then(res => {
         classes = extractClassData(res.data.records);
 
         return axios.get(
-          `/Students?filterByFormula=OR(${classes
-            .reduce(
-              (allStudents: string[], singleClass: { Students: string[] }) =>
-                allStudents.concat(singleClass.Students),
-              []
-            )
-            .map((studentId: string) => `RECORD_ID()="${studentId}"`)
-            .join(',')})&fields%5B%5D=Name`
+          `/Students?filterByFormula=${generateStudentsFilterFormula(
+            classes
+          )}&fields%5B%5D=Name`
         );
       })
       .then(res => {
@@ -47,7 +47,7 @@ export const getClassDataList =
           studentsReferenc[student.id] = student.fields.Name;
         });
 
-        const classDataList = createClassDataList(classes, studentsReferenc);
+        const classDataList = generateClassDataList(classes, studentsReferenc);
 
         dispatch({ type: GETCLASSDATALIST.SUCCESS, payload: classDataList });
       })

@@ -5,7 +5,7 @@ export const extractClassData = (classData: ClassDataResponse[]) =>
     []
   );
 
-export const createClassDataList = (
+export const generateClassDataList = (
   classes: ClassDataTable[],
   students: { [key: string]: string }
 ) =>
@@ -15,3 +15,18 @@ export const createClassDataList = (
       (studentId: string) => students[studentId]
     ),
   }));
+
+export const generateStudentsFilterFormula = (classes: ClassDataTable[]) =>
+  `OR(${classes
+    .reduce(
+      (allStudents: string[], singleClass: { Students: string[] }) =>
+        allStudents.concat(singleClass.Students),
+      []
+    )
+    .map((studentId: string) => `RECORD_ID()="${studentId}"`)
+    .join(',')})`;
+
+export const generateClassesFilterFormula = (student: StudentTable) =>
+  `OR(${student.fields.Classes.map(
+    (classId: string) => `RECORD_ID()="${classId}"`
+  ).join(',')})`;
