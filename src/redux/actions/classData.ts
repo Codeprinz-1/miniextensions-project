@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { createClassDataList, extractClassData } from '../../utils';
 import { CLEARCLASSDATALIST, GETCLASSDATALIST } from '../types/classData';
 
 export const getClassDataList =
@@ -26,13 +27,7 @@ export const getClassDataList =
         );
       })
       .then(res => {
-        classes = res.data.records.reduce(
-          (
-            allClasses: ClassDataTable[],
-            singleClasss: { fields: ClassDataTable }
-          ) => allClasses.concat(singleClasss.fields),
-          []
-        );
+        classes = extractClassData(res.data.records);
 
         return axios.get(
           `/Students?filterByFormula=OR(${classes
@@ -52,14 +47,7 @@ export const getClassDataList =
           studentsReferenc[student.id] = student.fields.Name;
         });
 
-        const classDataList = classes.map(
-          (classData: { Name: string; Students: string[] }) => ({
-            name: classData.Name,
-            students: classData.Students.map(
-              (studentId: string) => studentsReferenc[studentId]
-            ),
-          })
-        );
+        const classDataList = createClassDataList(classes, studentsReferenc);
 
         dispatch({ type: GETCLASSDATALIST.SUCCESS, payload: classDataList });
       })

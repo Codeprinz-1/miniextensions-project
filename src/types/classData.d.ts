@@ -14,3 +14,7 @@ interface StudentTable {
     Name: string;
   };
 }
+
+interface ClassDataResponse {
+  fields: ClassDataTable;
+}
