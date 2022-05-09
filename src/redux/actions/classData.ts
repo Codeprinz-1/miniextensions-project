@@ -1,11 +1,14 @@
 import axios from 'axios';
+
 import { Dispatch } from 'redux';
+
 import {
   extractClassData,
   generateClassDataList,
   generateClassesFilterFormula,
   generateStudentsFilterFormula,
 } from '../../utils';
+
 import { CLEARCLASSDATALIST, GETCLASSDATALIST } from '../types/classData';
 
 export const getClassDataList =
