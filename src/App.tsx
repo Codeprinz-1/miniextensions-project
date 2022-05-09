@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LogoutButton, Wrapper, Error } from './styled-components/App.styled';
 import ClassCard from './components/ClassCard';
 import { clearClassDataList } from './redux/actions/classData';
+import { updateUsername } from './redux/actions/username';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const App = () => {
 
   const handleLogout = () => {
     dispatch(clearClassDataList());
+    dispatch(updateUsername(''));
   };
 
   return (
