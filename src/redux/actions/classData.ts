@@ -7,7 +7,7 @@ export const getClassDataList =
   (dispatch: Dispatch<PartialBy<Action<ClassData[] | string>, 'payload'>>) => {
     dispatch({ type: GETCLASSDATALIST.LOADING });
 
-    let classes: any[];
+    let classes: ClassDataTable[] = [];
     const studentsReferenc: { [key: string]: string } = {};
     axios.defaults.baseURL = 'https://api.airtable.com/v0/app8ZbcPx7dkpOnP0';
     axios.defaults.headers.common.Authorization = `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`;
@@ -25,10 +25,11 @@ export const getClassDataList =
         );
       })
       .then(res => {
-        console.log(res);
         classes = res.data.records.reduce(
-          (allClasses: any[], singleClasss: any) =>
-            allClasses.concat(singleClasss.fields),
+          (
+            allClasses: ClassDataTable[],
+            singleClasss: { fields: ClassDataTable }
+          ) => allClasses.concat(singleClasss.fields),
           []
         );
 
@@ -44,13 +45,12 @@ export const getClassDataList =
         );
       })
       .then(res => {
-        console.log(res);
         const students = res.data.records;
-        for (const student of students) {
+
+        students.forEach((student: StudentTable) => {
           studentsReferenc[student.id] = student.fields.Name;
-        }
-        console.log(classes);
-        console.log(studentsReferenc);
+        });
+
         const classDataList = classes.map(
           (classData: { Name: string; Students: string[] }) => ({
             name: classData.Name,
@@ -60,11 +60,9 @@ export const getClassDataList =
           })
         );
 
-        console.log(classDataList);
         dispatch({ type: GETCLASSDATALIST.SUCCESS, payload: classDataList });
       })
       .catch(err => {
-        console.log(err);
         dispatch({ type: GETCLASSDATALIST.ERROR, payload: err.message });
       });
   };
