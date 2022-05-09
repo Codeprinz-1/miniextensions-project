@@ -1,7 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 500px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 350px;
   padding: 20px;
   border: 2px solid #ccc;
 `;

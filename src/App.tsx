@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LoginForm from './components/LoginForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { LogoutButton, Wrapper, Error } from './styled-components/App.styled';
+import ClassCard from './components/ClassCard';
+import { clearClassDataList } from './redux/actions/classData';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  const dispatch = useDispatch();
+  const status = useSelector((state: ReduxState) => state.classDataList.status);
+  const error = useSelector((state: ReduxState) => state.classDataList.error);
+  const classDataList = useSelector(
+    (state: ReduxState) => state.classDataList.data
   );
-}
+
+  const handleLogout = () => {
+    dispatch(clearClassDataList());
+  };
+
+  return (
+    <Wrapper>
+      {status === 'SUCCESS' && (
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+      )}
+      {classDataList.map(classData => (
+        <ClassCard
+          key={classData.name}
+          name={classData.name}
+          students={classData.students}
+        />
+      ))}
+      {status === 'PENDING' && <div>loading...</div>}
+      {(status === 'DEFAULT' || status === 'ERROR') && <LoginForm />}
+      {status === 'ERROR' && <Error>{error}</Error>}
+    </Wrapper>
+  );
+};
 
 export default App;

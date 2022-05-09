@@ -1,4 +1,4 @@
 import baseType from './asyncBaseType';
 
-export const GETCLASSDATA: asyncBaseType = baseType('GETCLASSDATA');
-export const CLEARCLASSDATA: asyncBaseType = baseType('CLEARCLASSDATA');
+export const GETCLASSDATALIST: AsyncBaseType = baseType('GETCLASSDATALIST');
+export const CLEARCLASSDATALIST: string = 'CLEARCLASSDATALIST';

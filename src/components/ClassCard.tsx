@@ -6,7 +6,7 @@ const ClassCard = (props: ClassData) => (
     <Text bold>Name</Text>
     <Text>{props.name}</Text>
     <Text bold>Students</Text>
-    <Text>{props.students.join(',')}</Text>
+    <Text>{props.students.join(', ')}</Text>
   </Container>
 );
 
