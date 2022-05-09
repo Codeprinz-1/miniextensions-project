@@ -16,7 +16,7 @@ export const getClassDataList =
       .get(`/Students?filterByFormula={Name}="${username}"`)
       .then(res => {
         if (res.data.records.length === 0) {
-          throw { message: 'No student by that name, try another.' };
+          throw new Error('No student by that name, try another.');
         }
 
         return axios.get(

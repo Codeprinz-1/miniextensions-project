@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThunkAction } from 'redux-thunk';
 import { getClassDataList } from '../redux/actions/classData';
 import { updateUsername } from '../redux/actions/username';
 

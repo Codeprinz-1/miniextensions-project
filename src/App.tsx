@@ -8,6 +8,7 @@ import { updateUsername } from './redux/actions/username';
 
 const App = () => {
   const dispatch = useDispatch();
+
   const status = useSelector((state: ReduxState) => state.classDataList.status);
   const error = useSelector((state: ReduxState) => state.classDataList.error);
   const classDataList = useSelector(
