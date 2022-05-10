@@ -11,7 +11,7 @@ interface ClassDataTable {
 interface StudentTable {
   id: string;
   fields: {
-    Name: string;
+    Name?: string;
     Classes: string[];
   };
 }

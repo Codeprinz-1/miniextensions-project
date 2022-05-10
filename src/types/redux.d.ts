@@ -15,7 +15,7 @@ interface ClassDataListState {
   error: string;
 }
 
-interface Action<T> {
+interface Action<T = void> {
   type: string;
   payload: T;
 }

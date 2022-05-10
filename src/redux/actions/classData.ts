@@ -47,7 +47,7 @@ export const getClassDataList =
         const students = res.data.records;
 
         students.forEach((student: StudentTable) => {
-          studentsReferenc[student.id] = student.fields.Name;
+          studentsReferenc[student.id] = student.fields.Name!;
         });
 
         const classDataList = generateClassDataList(classes, studentsReferenc);

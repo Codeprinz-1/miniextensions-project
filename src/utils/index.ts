@@ -16,7 +16,9 @@ export const generateClassDataList = (
     ),
   }));
 
-export const generateStudentsFilterFormula = (classes: ClassDataTable[]) =>
+export const generateStudentsFilterFormula = (
+  classes: PartialBy<ClassDataTable, 'Name'>[]
+) =>
   `OR(${classes
     .reduce(
       (allStudents: string[], singleClass: { Students: string[] }) =>
@@ -26,7 +28,9 @@ export const generateStudentsFilterFormula = (classes: ClassDataTable[]) =>
     .map((studentId: string) => `RECORD_ID()="${studentId}"`)
     .join(',')})`;
 
-export const generateClassesFilterFormula = (student: StudentTable) =>
+export const generateClassesFilterFormula = (
+  student: PartialBy<StudentTable, 'id'>
+) =>
   `OR(${student.fields.Classes.map(
     (classId: string) => `RECORD_ID()="${classId}"`
   ).join(',')})`;

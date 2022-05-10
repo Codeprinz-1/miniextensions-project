@@ -6,7 +6,7 @@ export const classDataListReducer = (
     status: 'DEFAULT',
     error: '',
   },
-  action: Action<ClassData[] | string>
+  action: PartialBy<Action<ClassData[] | string | void>, 'payload'>
 ): ClassDataListState => {
   switch (action.type) {
     case GETCLASSDATALIST.LOADING:
